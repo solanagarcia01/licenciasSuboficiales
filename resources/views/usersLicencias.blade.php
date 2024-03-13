@@ -81,11 +81,16 @@
                 font-weight: bold;
             }
 
-            h2{
+            h3{
                 font-weight: bold;
                 text-decoration: underline;
+                color: black;
             }
             
+            .error {
+                color: red;
+            }
+
 
         </style>
 
@@ -98,7 +103,7 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         
-        <h2 style="text-align: center"> Licencias de Suboficiales </h2>
+        <h3 style="text-align: center"> Licencias de Suboficiales </h3>
         
         <form class="row g-3" id="myForm" style="padding:10vh";>
 
@@ -169,7 +174,7 @@
 
             <div class="col-md-6">
                 <label for="OD" class="form-label">Orden del Día (OD)</label>
-                <input type="text" class="form-control" id="od" name="id" required>
+                <input type="text" class="form-control" id="od" name="od" required>
                 </div>
             </div>
 
@@ -202,12 +207,11 @@
                     },
                     nombre: {
                         required: true,
+                        letras:true,
                     },
                     apellido: {
                         required: true,
-                    },
-                    direccion: {
-                        required: true,
+                        letras:true,
                     },
                     localidad: {
                         required: true,
@@ -218,13 +222,23 @@
                     },
                     fechafin: {
                         required: true,
-                        date: true
+                        date: true,
+                    },
+                    provincia: {
+                        required: true,
+                    },
+                    localidad: {
+                        required: true,
+                        letras:true,
+                    },
+                    direccion: {
+                        required: true,
+                        alphanumeric: true
                     },
                     od: {
                         required: true,
                         minlength: 6,
                         maxlength: 10,
-                        digits: true
                     },
                     tipoLicencia: {
                         required: true
@@ -239,9 +253,22 @@
                     },
                     nombre: {
                         required: "El Nombre es obligatorio",
+                        letras: "El Nombre debe contener solo letras."
                     },
                     apellido: {
-                        required: "El Nombre es obligatorio",
+                        required: "El Apellido es obligatorio",
+                        letras: "El Apellido debe contener solo letras."
+                    },
+                    provincia: {
+                        required: "La Provincia es obligatoria",
+                    },
+                    localidad: {
+                        required: "La Localidad es obligatoria",
+                        letras: "La Localidad debe contener solo letras."
+                    },
+                    direccion: {
+                        required: "La Dirección es obligatorio",
+                        alphanumeric: "La Dirección debe contener solo letras y números."
                     },
                     fechainicio: {
                         required: "La fecha de inicio de la licencia es obligatoria",
@@ -252,9 +279,9 @@
                         date: "La fecha de finalización de la licencia debe ser una fecha válida"
                     },
                     od: {
-                        required: "La Orden del Día (OD) es obligatoria",
-                        minlength: "La Orden del Día(OD) debe tener al menos 6 caracteres",
-                        maxlength: "La Orden del Día (OD) debe tener menos de 10 caracteres",
+                        required: "La OD es obligatoria.",
+                        minlength: "La OD debe contener al menos 6 caracteres.",
+                        maxlength: "La OD debe no debe contener más de 10 caracteres."
                     },
                     tipoLicencia: {
                         required: "Debe seleccionar una opción de licencia"
@@ -263,6 +290,16 @@
                 },
             });
         });
+
+      // Regla de validación personalizada para letras
+    $.validator.addMethod("letras", function(value, element) {
+        return this.optional(element) || /^[a-zA-Z]+$/.test(value);
+    });
+
+     // Método de validación para letras y números
+     $.validator.addMethod("alphanumeric", function(value, element) {
+        return this.optional(element) || /^[a-zA-Z0-9\s]+$/.test(value);
+    });
 
 </script>
 
