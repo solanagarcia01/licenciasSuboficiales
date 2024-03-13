@@ -82,9 +82,9 @@
             }
 
             h3{
-                font-weight: bold;
                 text-decoration: underline;
                 color: black;
+                text-align: center;
             }
             
             .error {
@@ -103,7 +103,7 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         
-        <h3 style="text-align: center"> Licencias de Suboficiales </h3>
+        <h3><strong> Licencias de Suboficiales </strong> </h3>
         
         <form class="row g-3" id="myForm" style="padding:10vh";>
 
