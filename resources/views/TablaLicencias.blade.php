@@ -22,18 +22,19 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
+        <link href="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/themes/metro/blue/jtable.min.css" rel="stylesheet">
 
 
     </head>
     <body>
 
-        <div id="PartesVencidos"></div>
+        <div id="LicenciasCargadas"></div>
     
         
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/jquery.jtable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     
     
         <script>
@@ -52,8 +53,8 @@
             }
         });
     
-        $('#PartesVencidos').jtable({
-            title: 'Partes Vencidos',
+        $('#LicenciasCargadas').jtable({
+            title: 'Tabla de Licencias',
             paging: true,
             pageSize: 10,
             sorting: true,
@@ -92,75 +93,61 @@
             fields: {
                 dni: {
                     title: 'DNI',
-                    width: '10%',
+                    width: '5%',
+                    listClass: 'text-center',
                     key: true,
                     list: true,
                     sorting: false,
+
                 },
                 apellido: {
                     title: 'Apellido',
                     listClass: 'text-center',
-                    width: '15%',
+                    width: '10%',
                     sorting: false,
                 },
                 nombre: {
                     title: 'Nombre',
                     listClass: 'text-center',
+                    width: '10%',
                     sorting: false,
                 },
                 fechainicio:{
                     listClass: 'text-center',
                     title: 'Fecha inicio',
-                    width: '18%',
+                    width: '10%',
                     sorting: false,
                 },
                 fechafin: {
                     listClass: 'text-center',
                     title: 'Fecha fin',
-                    width: '15%',
+                    width: '10%',
                     sorting: false,
                 },
                 provincia: {
                     listClass: 'text-center',
                     title: 'Provincia',
-                    width: '20%',
+                    width: '10%',
                     sorting: false,
                 },
                 localidad: {
                     listClass: 'text-center',
                     title: 'Localidad',
                     sorting: false,
-                    width: '14%',
+                    width: '10%',
                 },
                 direccion: {
                     listClass: 'text-center',
                     title: 'Dirección',
                     sorting: false,
-                    width: '18%',
+                    width: '10%',
                 },
-                cie: {
+                tipoLicencia: {
                     listClass: 'text-center',
-                    width: '3%',
-                    title: 'CIE',
+                    width: '10%',
+                    title: 'Tipo Licencia',
                     sorting: false,
-                },
-                gestion: {
-                    listClass: 'text-center',
-                    sorting: false,                        
-                    width: '20%',
-                    display: function (data) {
-                        if (data.record.fechaActa == null && data.record.fechaInformacion == null){
-                            var color = 'black';
-                        }else if (data.record.fechaActa != null && data.record.fechaInformacion == null){
-                            var color = 'orangered';
-                        } else { 
-                            var color = 'green';
-                        }
-                        if(data.record.permisos[0] == "N3" || data.record.permisos[0] == "N2"){
-                            return '<button data-idparte="'+data.record.id+'" data-idparteoriginal="'+data.record.idParteEnfermo+'" data-dni='+data.record.dni+' data-tipo="C" data-tipoparte="'+data.record.tipoParte+'" data-title="Altas" id="botonVencido" class="btn btn-sm btn-default btn-alta"><i class="fas fa-clock"></i></button><button data-dni='+data.record.dni+' data-idparte="'+data.record.id+'" data-idparteoriginal="'+data.record.idParteEnfermo+'" data-tipoparte="'+data.record.tipoParte+'" data-title="Ampliación" id="ampliar" class="btn btn-sm btn-default btn-ampliar"><i class="fas fa-stethoscope"></i></button><button data-idparteoriginal="' + data.record.idParteEnfermo + '" id="acta" data-title="Acta/Información" class="btn btn-sm btn-default btn-acta"><i style="color: '+color+'" class="fas fa-clipboard"></i></button><button data-idparteoriginal="'+data.record.idParteEnfermo+'" data-dni='+data.record.dni+' data-title="Historial" class="btn btn-sm btn-default btn-cerrado"><i class="fas fa-list"></i></button>'
-                        }
-                    }
-                }        
+                },      
             },
             rowInserted: function (event, data) {
                 if (data.record) {
@@ -186,76 +173,7 @@
             }
         });
     
-        $('#tablaPartesVencidos').jtable('load');
-    
-        $('#buscar').keyup(function(e){
-            if(e.keyCode == 13)
-            {
-                $('#tablaPartesVencidos').jtable('load', {
-                    buscar: $('#buscar').val(),
-                });
-            }
-        });
-    
-        $('#lupita').click(function () {
-            $('#tablaPartesVencidos').jtable('load', {
-                buscar: $('#buscar').val(),
-                idEstado: $('#estado').val(),
-            });
-        });
-    
-        $('#limpiar').click(function () {
-            $("#lupita" ).css( "background-color","white");
-            $("#buscar" ).css( "border-right-color","white");
-            $("#lupita" ).css( "border-color","");
-            $("#lupitaIcono" ).css( "color","");
-            $('#buscar').val("");
-            $('#estado').val("Todos");
-            $('#tablaPartesVencidos').jtable('reload');
-        });
-    
-        $(document).on("click", '.btn-vencido',function(){
-            var parte = $(this).closest('tr').find('.btn-vencido');
-            var idParte = parte.data("idparte");
-            var dniParte = parte.data("dni");
-            var tipo = parte.data("tipo");
-            var tipoParte = parte.data("tipoparte");
-            var idParteOriginal = parte.data("idparteoriginal");
-            $('#altaAnt').modal({
-                backdrop: 'static',
-                keyboard: false,
-                refresh: true
-            });
-            $.ajax({
-                type: 'POST',
-                url: '/editarPartes',
-                async: true,
-                dataType: "json",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                },
-                data: {
-                    id: idParteOriginal,
-                    tipoParte: "P"
-                },
-                success: function (datos) {
-                    var armaEsp = "";
-                    if(datos.armaEsp != null){
-                        armaEsp = datos.armaEsp;
-                    }
-                    $('#causanteAlta').text(datos.grado + ' ' + armaEsp + ' ' + datos.apellido + ' ' + datos.nombre);
-                    $('#fecha_inicio_Alta').val(datos.fechaDesde);
-                    $('#lugarAlta').val(datos.lugar);
-                },
-            })
-    
-            $('#guardarAlta').attr('data-id',idParteOriginal);
-            $('#guardarAlta').attr('data-dni',dniParte);
-            $('#guardarAlta').attr('data-tipo',tipo);
-    
-        });
-    
-        $('#tablaPartesVencidos').jtable('load');
+        $('#tablaLicenciasCargadas').jtable('load');
     
         })
             </script>

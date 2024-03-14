@@ -17,7 +17,7 @@ class TablaController extends Controller
             //trae info API
             //$request =$client->(url);
             //$responde=json_decode(request->getBody()getContents());
-            return view('usersLicencias');
+            return view('formLicencias');
         }catch(RequestException $e){
             return null;
         }
@@ -34,3 +34,4 @@ class TablaController extends Controller
     }
 
 }
+

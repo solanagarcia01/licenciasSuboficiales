@@ -81,7 +81,7 @@
                 font-weight: bold;
             }
 
-            h3{
+            h3{ 
                 text-decoration: underline;
                 color: black;
                 text-align: center;
@@ -296,10 +296,6 @@
         return this.optional(element) || /^[a-zA-Z]+$/.test(value);
     });
 
-     // Método de validación para letras y números
-     $.validator.addMethod("alphanumeric", function(value, element) {
-        return this.optional(element) || /^[a-zA-Z0-9\s]+$/.test(value);
-    });
 
 </script>
 
