@@ -24,11 +24,10 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
 
-
     </head>
     <body>
 
-        <div id="PartesVencidos"></div>
+        <div id="licenciasCargadas" style="margin: 0 auto; width: 80%;"></div>
     
         
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -52,8 +51,7 @@
             }
         });
     
-        $('#PartesVencidos').jtable({
-            title: 'Partes Vencidos',
+        $('#licenciasCargadas').jtable({
             paging: true,
             pageSize: 10,
             sorting: true,
@@ -186,19 +184,19 @@
             }
         });
     
-        $('#tablaPartesVencidos').jtable('load');
+        $('#tablaLicencias').jtable('load');
     
         $('#buscar').keyup(function(e){
             if(e.keyCode == 13)
             {
-                $('#tablaPartesVencidos').jtable('load', {
+                $('#tablaLicencias').jtable('load', {
                     buscar: $('#buscar').val(),
                 });
             }
         });
     
         $('#lupita').click(function () {
-            $('#tablaPartesVencidos').jtable('load', {
+            $('#tablaLicencias').jtable('load', {
                 buscar: $('#buscar').val(),
                 idEstado: $('#estado').val(),
             });
@@ -211,7 +209,7 @@
             $("#lupitaIcono" ).css( "color","");
             $('#buscar').val("");
             $('#estado').val("Todos");
-            $('#tablaPartesVencidos').jtable('reload');
+            $('#tablaLicencias').jtable('reload');
         });
     
         $(document).on("click", '.btn-vencido',function(){
@@ -255,7 +253,7 @@
     
         });
     
-        $('#tablaPartesVencidos').jtable('load');
+        $('#tablaLicencias').jtable('load');
     
         })
             </script>
