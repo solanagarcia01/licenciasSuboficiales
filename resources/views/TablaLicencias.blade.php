@@ -27,121 +27,151 @@
     </head>
     <body>
 
-    <div id="licenciasCargadas"></div>
-    
+        <div id="licenciasCargadas"></div>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/jquery.jtable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/jquery.jtable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
+        <script>
+        
+            $(document).ready(function () {
+        
+            $.ajax({
+                url: window.location.origin+'/img/preloader.gif',
+                type:'HEAD',
+                error: function()
+                {
+                    $("div .jtable-busy-message").css('background',"url('http://imgfz.com/i/okEmX14.gif') no-repeat");
+                },
+                success: function()
+                {
+                }
+            });
+        
+            $('#licenciasCargadas').jtable({
+                title: 'Tabla Licencias',
+                paging: true,
+                pageSize: 10,
+                sorting: true,
+                async: true,
+                defaultSorting: 'fechaInicio',
+                actions: {
+                    listAction: function (postData, jtParams) {
+                        return $.Deferred(function ($dfd) {
+                            $.ajax({
+                                type: 'GET',
+                                url: 'http://localhost:5800/',
+                                dataType: 'json',
 
-
-    <script>
-    
-    $(document).ready(function () {
-
-    $.ajax({
-        url: window.location.origin+'/img/preloader.gif',
-        type:'HEAD',
-        error: function()
-        {
-            $("div .jtable-busy-message").css('background',"url('http://imgfz.com/i/okEmX14.gif') no-repeat");
-        },
-        success: function()
-        {
-        }
-    });
-
-    $('#licenciasCargadas').jtable({
-        title: 'Tabla Licencias',
-        paging: true,
-        pageSize: 10,
-        sorting: true,
-        async: true,
-        defaultSorting: 'fechaInicio',
-        actions: {
-            listAction: function (postData, jtParams) {
-                return $.Deferred(function ($dfd) {
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:5800/',
-                        dataType: 'json',
-                        success: function (data) {
-                        // Verifica que 'data.licencias' sea el arreglo que contiene los datos en tu respuesta JSON
-                        $dfd.resolve({
-                            "Result": "OK",
-                            "Records": data.licencias, // Suponiendo que 'licencias' es el arreglo que contiene los datos en tu respuesta JSON
-                            "TotalRecordCount": data.licencias.length
+                                success: function (data) {
+                                // Verifica que 'data.licencias' sea el arreglo que contiene los datos en tu respuesta JSON
+                                $dfd.resolve({
+                                    "Result": "OK",
+                                    "Records": data.licencias, // Suponiendo que 'licencias' es el arreglo que contiene los datos en tu respuesta JSON
+                                    "TotalRecordCount": data.licencias.length
+                                });
+                            },
+                            error: function (data) {
+                                $dfd.reject();
+                            }
                         });
+                    });
+                },
+
+                createAction: '/GettingStarted/CreatePerson',
+                updateAction: '/GettingStarted/UpdatePerson',
+                deleteAction: '/eliminar-form',
+                
+            /*     deleteAction:  function (postData, jtParams) {
+            return $.Deferred(function ($dfd) {
+                console.log(postData.record.id),
+                $.ajax({
+                    type: 'POST',
+                    url: '/eliminar-form',
+                    // Utilizar la ruta nombrada en web.php
+                    data: { id: postData.record.id }, // Pasar el ID de la licencia a eliminar
+                    dataType: 'json',
+                    success: function (data) {
+                        $dfd.resolve();
+                        $('#PartesVencidos').jtable('reload'); // Recargar la tabla después de la eliminación
                     },
-                    error: function (data) {
-                        $dfd.reject();
+                    error: function () {
+                        $dfd.reject();º
                     }
                 });
+                
             });
-        }
-    },
-        fields: {
-            dni: {
-                title: 'DNI',
-                width: '5%',
-                listClass: 'text-center',
-                key: true,
-                list: true,
-                sorting: false,
+        }*/
 
             },
-            fechaInicio:{
-                listClass: 'text-center',
-                title: 'Fecha inicio',
-                width: '10%',
-                sorting: false,
-            },
-            fechaFin: {
-                listClass: 'text-center',
-                title: 'Fecha fin',
-                width: '10%',
-                sorting: false,
-            },
-            provincia: {
-                listClass: 'text-center',
-                title: 'Provincia',
-                width: '10%',
-                sorting: false,
-            },
-            localidad: {
-                listClass: 'text-center',
-                title: 'Localidad',
-                sorting: false,
-                width: '10%',
-            },
-            direccion: {
-                listClass: 'text-center',
-                title: 'Dirección',
-                sorting: false,
-                width: '10%',
-            },
-            tipo: {
-                listClass: 'text-center',
-                width: '10%',
-                title: 'Tipo Licencia',
-                sorting: false,
-            },   
-            ordenDia: {
-                listClass: 'text-center',
-                width: '10%',
-                title: 'OD',
-                sorting: false,
-            },      
-        },
+                fields: {
+                    dni: {
+                        title: 'DNI',
+                        width: '5%',
+                        listClass: 'text-center',
+                        key: true,
+                        list: true,
+                        sorting: false,
 
+                    },
+                    fechaInicio:{
+                        listClass: 'text-center',
+                        title: 'Fecha inicio',
+                        width: '10%',
+                        sorting: false,
+                    },
+                    fechaFin: {
+                        listClass: 'text-center',
+                        title: 'Fecha fin',
+                        width: '10%',
+                        sorting: false,
+                    },
+                    provincia: {
+                        listClass: 'text-center',
+                        title: 'Provincia',
+                        width: '10%',
+                        sorting: false,
+                    },
+                    localidad: {
+                        listClass: 'text-center',
+                        title: 'Localidad',
+                        sorting: false,
+                        width: '10%',
+                    },
+                    direccion: {
+                        listClass: 'text-center',
+                        title: 'Dirección',
+                        sorting: false,
+                        width: '10%',
+                    },
+                    tipo: {
+                        listClass: 'text-center',
+                        width: '10%',
+                        title: 'Tipo Licencia',
+                        sorting: false,
+                    },   
+                    ordenDia: {
+                        listClass: 'text-center',
+                        width: '10%',
+                        title: 'OD',
+                        sorting: false,
+                    },      
+                },
+
+            });
+        
+            $('#licenciasCargadas').jtable('load');
+            $('#licenciasCargadas').on('click', '.jtable-toolbar-item-add-record', function () {
+            // Redirigir al usuario a la vista del formulario
+            window.location.href = '/'; // Reemplaza '/ruta-de-tu-formulario' con la ruta correcta de tu formulario
     });
-
-    $('#licenciasCargadas').jtable('load');
-  
+        
     })
-        </script>
-
-</body>
-
+    </script>
+    
+    </body>
+    
 </html>

@@ -97,42 +97,27 @@
     </head>
     <body>
 
-
-        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         
         <h3><strong> Licencias de Suboficiales </strong> </h3>
         
         <form class="row g-3" id="myForm" style="padding:10vh";>
-
+            @csrf
             <div class="col-md-8">
                 <label for="dni" class="form-label">DNI</label>
                 <input type="text" class="form-control" id="dni" name="dni" required>
             </div>
             <br>
             <div class="col-md-6">
-                <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" required>
-            </div>
-
-            <div class="col-md-6">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                </div>
+                <label for="fechaInicio" class="form-label">Inicio de la licencia</label>
+                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
             </div>
             <div class="col-md-6">
-                <label for="inicioLicencia" class="form-label">Inicio de la licencia</label>
-                <input type="date" class="form-control" id="inicioLicencia" name="fechainicio" required>
-            </div>
-            <div class="col-md-6">
-                <label for="finLicencia" class="form-label">Fin de la licencia</label>
-                <input type="date" class="form-control" id="finLicencia" name="fechafin" required>
+                <label for="echaFin" class="form-label">Fin de la licencia</label>
+                <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
             </div>
             <div class="col-md-4">
-                <label for="Provincia" class="form-label">Provincia</label>
-                <select class="form-select" id="Provincia" name="provincia" required>
+                <label for="provincia" class="form-label">Provincia</label>
+                <select id="provincia" class="form-select" name="provincia" required>
                 <option selected disabled value="">Choose...</option>
                     <option value="Buenos Aires">Buenos Aires</option>
                     <option value="Catamarca">Catamarca</option>
@@ -173,30 +158,37 @@
             </div>
 
             <div class="col-md-6">
-                <label for="OD" class="form-label">Orden del Día (OD)</label>
-                <input type="text" class="form-control" id="od" name="od" required>
+                <label for="ordenDia" class="form-label">Orden del Día (OD)</label>
+                <input type="text" class="form-control" id="ordenDia" name="ordenDia" required>
                 </div>
             </div>
 
             <div class="col-6">
-                <label for='tipoLicencia'class="form-label">Seleccione el tipo de Licencia:</label>
-                <select class="form-select" id="tipoLicencia" name="tipoLicencia" required>
+                <label for='licencia'class="form-label">Seleccione el tipo de Licencia:</label>
+                <select id=licencia  class="form-select" name="tipo" required>
                     <option selected disabled value="">Choose...</option>
-                        <option value="Buenos Aires">Licencia Ordinaria</option>
-                        <option value="Catamarca">Licencia Extraordinaria</option>
+                        <option value="Licencia Ordinaria">Licencia Ordinaria</option>
+                        <option value="Licencia Extraordinaria">Licencia Extraordinaria</option>
                 </select>
             </div>
 
             <div class="col-12">
-                <button class="btn btn-primary" type="submit">Enviar</button>
+                <button class="btn btn-primary" type="submit" id="btnCargar">Cargar Licencia</button>
             </div>
             </form>
-                        
-    </body>
+
+</body>
 </html>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-        $(document).ready(function () {
+   
+         $(document).ready(function() {
             $("#myForm").validate({
                 rules: {
                     dni: {
@@ -205,22 +197,14 @@
                         minlength: 7,
                         maxlength: 8,
                     },
-                    nombre: {
-                        required: true,
-                        letras:true,
-                    },
-                    apellido: {
-                        required: true,
-                        letras:true,
-                    },
                     localidad: {
                         required: true,
                     },
-                    fechainicio: {
+                    fechaInicio: {
                         required: true,
                         date: true
                     },
-                    fechafin: {
+                    fechaFin: {
                         required: true,
                         date: true,
                     },
@@ -229,11 +213,11 @@
                     },
                     localidad: {
                         required: true,
-                        letras:true,
+                        letras: true,
                     },
                     direccion: {
                         required: true,
-                        alphanumeric: true
+                        // alphanumeric: true
                     },
                     od: {
                         required: true,
@@ -268,7 +252,7 @@
                     },
                     direccion: {
                         required: "La Dirección es obligatorio",
-                        alphanumeric: "La Dirección debe contener solo letras y números."
+                        // alphanumeric: "La Dirección debe contener solo letras y números."
                     },
                     fechainicio: {
                         required: "La fecha de inicio de la licencia es obligatoria",
@@ -289,15 +273,35 @@
 
                 },
             });
+
+            // Regla de validación personalizada para letras
+            $.validator.addMethod("letras", function(value, element) {
+                return this.optional(element) || /^[a-zA-Z]+$/.test(value);
+            });
         });
 
-      // Regla de validación personalizada para letras
-    $.validator.addMethod("letras", function(value, element) {
-        return this.optional(element) || /^[a-zA-Z]+$/.test(value);
-    });
+        $('#btnCargar').click(function(e) {
+            e.preventDefault();
+            var formData = $('#myForm').serialize();
+            console.log(formData);
+            $.ajax({
+                method: 'POST',
+                url: 'http://localhost:5800/insert',
+                dataType: 'json',
+                data: formData,
 
-
+                success: function(data) {
+                    console.log(data);
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Licencia Cargada!",
+                        text: "Formulario enviado con éxito",
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Hubo un error al enviar los datos: ' + error);
+                }
+            });
+        });
+    
 </script>
-
-</body>
-</html>
