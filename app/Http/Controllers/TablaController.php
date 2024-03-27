@@ -43,6 +43,7 @@ class TablaController extends Controller
 
         function procesarForm(Request $request){
             $dni = Request::input('dni');
+            $id = Request::input('id');
             $fechaInicio = Request:: input('fechaInicio');
             $fechaFin = Request:: input('fechaFin');
             $provincia = Request:: input('provincia');
@@ -62,20 +63,5 @@ class TablaController extends Controller
         }
     }
 
-    function eliminarForm(Request $request){
-        dd($request);
-        $id = Request::input('id');
-        try{
-            $response = Http::delete('http://localhost:5800/delete/', ['dni' => $dni]);
-            if ($response->successful()) {
-                return response()->json(['message' => 'Licencia eliminada correctamente']);
-            } else {
-                // Error en la solicitud al endpoint
-                return response()->json(['error' => 'Error al eliminar la licencia'], 500);
-            }
-            }catch(RequestException $e){
-            return $e->getMessage();
-        }
-    }
 }
 
