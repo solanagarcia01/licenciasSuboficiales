@@ -98,10 +98,10 @@
                             // Mostrar una alerta personalizada con Sweet Alert
                             Swal.fire({
                                 title: '¿Estás seguro?',
-                                text: 'Esta acción editara la licencia. ¿Deseas continuar?',
+                                text: 'Esta acción editará la licencia. ¿Deseas continuar?',
                                 icon: 'warning',
                                 showCancelButton: true,
-                                confirmButtonText: 'Sí, editar',
+                                confirmButtonText: 'Editar',
                                 cancelButtonText: 'Cancelar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
