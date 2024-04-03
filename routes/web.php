@@ -18,7 +18,7 @@ Route::get('/', [TablaController::class, 'index']);
 
 Route::get('/TablaLicencias', [TablaController::class, 'tabla']); 
 
-Route::post('procesar-form', [TablaController::class, 'procesarForm']);
+// Route::post('procesar-form', [TablaController::class, 'procesarForm']);
 
 
 

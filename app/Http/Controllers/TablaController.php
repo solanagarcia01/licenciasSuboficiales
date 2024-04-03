@@ -37,31 +37,31 @@ class TablaController extends Controller
         }
     }
     
-    function procesarForm(Request $request)
-    {
-        info('Datos del formulario recibidos:', $request->all());
+    // function procesarForm(Request $request)
+    // {
+    //     info('Datos del formulario recibidos:', $request->all());
 
-        function procesarForm(Request $request){
-            $dni = Request::input('dni');
-            $id = Request::input('id');
-            $fechaInicio = Request:: input('fechaInicio');
-            $fechaFin = Request:: input('fechaFin');
-            $provincia = Request:: input('provincia');
-            $direccion = Request:: input('direccion');
-            $localidad = Request:: input('localidad');
-            $ordenDia = Request:: input('ordenDia');
-            $tipo = Request:: input('tipo');
+    //     function procesarForm(Request $request){
+    //         $dni = Request::input('dni');
+    //         $id = Request::input('id');
+    //         $fechaInicio = Request:: input('fechaInicio');
+    //         $fechaFin = Request:: input('fechaFin');
+    //         $provincia = Request:: input('provincia');
+    //         $direccion = Request:: input('direccion');
+    //         $localidad = Request:: input('localidad');
+    //         $ordenDia = Request:: input('ordenDia');
+    //         $tipo = Request:: input('tipo');
     
-            try{
-                $client  = new Client(['verify' => false]);
-                $request = $client -> get('http://localhost:5800/insert/');
-                $response = json_decode($request->getBody()->getContents(), true);
-                return json_encode($response);
-            }catch(RequestException $e){
-                return $e->getMessage();
-            }
-        }
-    }
+    //         try{
+    //             $client  = new Client(['verify' => false]);
+    //             $request = $client -> get('http://localhost:5800/insert/');
+    //             $response = json_decode($request->getBody()->getContents(), true);
+    //             return json_encode($response);
+    //         }catch(RequestException $e){
+    //             return $e->getMessage();
+    //         }
+    //     }
+    // }
 
 }
 

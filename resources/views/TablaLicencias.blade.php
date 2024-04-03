@@ -2,10 +2,11 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Proyecto Final</title>
+    <title>Tabla Licencias</title>
 
     <header>
         <img class="Logo" src="https://www.cge.mil.ar/cge2020/wp-content/uploads/2020/04/Mesa-de-trabajo-1@3x.png" alt="Logo" style="height: 100px; ">
@@ -22,11 +23,12 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/themes/metro/blue/jtable.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jtable/2.4.0/themes/metro/blue/jtable.min.css">
+
 
 </head>
 
@@ -34,12 +36,11 @@
 
     <div id="licenciasCargadas"></div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/jquery.jtable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jtable/2.4.0/jquery.jtable.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -76,7 +77,65 @@
                     },
 
                     createAction: '/GettingStarted/CreatePerson',
-                    updateAction: '/GettingStarted/UpdatePerson',
+
+                    updateAction: function(postData) {
+                        const url = new URLSearchParams(
+                            postData
+                        )
+
+                        const obj = {}
+                        for (const [key, value] of url.entries()) {
+
+                            if (key === "fechaInicio" || key === "fechaFin") {
+                                const newDate = value.split("T")[0];
+                                obj[key] = newDate
+                            } else {
+                                obj[key] = value
+                            }
+                        }
+                        console.log(obj);
+                        return $.Deferred(function($dfd) {
+                            // Mostrar una alerta personalizada con Sweet Alert
+                            Swal.fire({
+                                title: '¿Estás seguro?',
+                                text: 'Esta acción editara la licencia. ¿Deseas continuar?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Sí, editar',
+                                cancelButtonText: 'Cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // El usuario confirmó, realizar la eliminación
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: 'http://localhost:5800/update',
+
+                                        dataType: 'json',
+                                        data: obj,
+                                        success: function(data) {
+                                            // Mostrar mensaje de éxito personalizado
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Éxito',
+                                                text: 'Licencia editada correctamente'
+                                            });
+                                            $dfd.resolve({
+                                                "Result": "OK"
+                                            });
+                                        },
+                                        error: function(e) {
+                                            console.log(e);
+                                            $dfd.reject();
+                                        }
+                                    });
+                                } else {
+                                    // El usuario canceló, rechazar la eliminación
+                                    $dfd.reject();
+                                }
+                            });
+                        });
+
+                    },
 
                     deleteAction: function(postData) {
                         return $.Deferred(function($dfd) {
