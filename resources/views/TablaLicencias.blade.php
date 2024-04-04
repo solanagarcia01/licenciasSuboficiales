@@ -9,15 +9,16 @@
     <title>Tabla Licencias</title>
 
     <header>
-        <img class="Logo" src="https://www.cge.mil.ar/cge2020/wp-content/uploads/2020/04/Mesa-de-trabajo-1@3x.png" alt="Logo" style="height: 100px; ">
-        <ul class="nav nav-underline">
-            <li class="nav-item">
-                <a class="nav-link bar" href="\" onclick="mostrarSeccion('usersLicencias'); return false;">Cargá tu Licencia</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link bar" aria-current="page" href="\TablaLicencias" onclick="mostrarSeccion('TablaLicencias'); return false;">Licencias Cargadas</a>
-            </li>
-        </ul>
+        <div class="nav-bar" style="margin: 20px;">
+            <ul class="nav nav-underline">
+                <li class="nav-item">
+                    <a class="nav-link bar" href="\" onclick="mostrarSeccion('usersLicencias'); return false;">Cargá tu Licencia</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link bar" aria-current="page" href="\TablaLicencias" onclick="mostrarSeccion('TablaLicencias'); return false;">Licencias Cargadas</a>
+                </li>
+            </ul>
+        </div>
     </header>
 
 
@@ -196,12 +197,22 @@
                         title: 'Fecha inicio',
                         width: '10%',
                         sorting: false,
+                        display: function(data) {
+                            // Formato fecha
+                            return new Date(data.record.fechaInicio).toISOString().split('T')[0];
+                        },
+                        displayFormat: 'yy-mm-dd'
                     },
                     fechaFin: {
                         listClass: 'text-center',
                         title: 'Fecha fin',
                         width: '10%',
                         sorting: false,
+                        display: function(data) {
+                            // Formato fecha
+                            return new Date(data.record.fechaFin).toISOString().split('T')[0];
+                        },
+                        displayFormat: 'yy-mm-dd'
                     },
                     provincia: {
                         listClass: 'text-center',
