@@ -164,7 +164,7 @@
 
         <div class="col-md-6">
             <label for="ordenDia" class="form-label">Orden del Día (OD)</label>
-            <input type="text" class="form-control" id="ordenDia" name="ordenDia" required>
+            <input type="text" class="form-control" id="ordenDia" name="od" required>
         </div>
         </div>
 
@@ -261,14 +261,14 @@
                                 letras: "La Localidad debe contener solo letras."
                             },
                             direccion: {
-                                required: "La Dirección es obligatorio",
+                                required: "La Dirección es obligatoria",
                                 // alphanumeric: "La Dirección debe contener solo letras y números."
                             },
-                            fechainicio: {
+                            fechaInicio: {
                                 required: "La fecha de inicio de la licencia es obligatoria",
                                 date: "La fecha de inicio de la licencia debe ser una fecha válida"
                             },
-                            fechafin: {
+                            fechaFin: {
                                 required: "La fecha de finalización de la licencia es obligatoria",
                                 date: "La fecha de finalización de la licencia debe ser una fecha válida"
                             },
@@ -277,7 +277,7 @@
                                 minlength: "La OD debe contener al menos 6 caracteres.",
                                 maxlength: "La OD debe no debe contener más de 10 caracteres."
                             },
-                            tipoLicencia: {
+                            tipo: {
                                 required: "Debe seleccionar una opción de licencia"
                             }
 
@@ -291,7 +291,7 @@
                 });
 
                 $('#btnCargar').click(function(e) {
-                    e.preventDefault();
+                    // e.preventDefault();
                     var formData = $('#myForm').serialize();
                     console.log(formData);
                     $.ajax({

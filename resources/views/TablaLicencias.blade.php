@@ -9,6 +9,7 @@
     <title>Tabla Licencias</title>
 
     <header>
+        <img class="Logo" src="https://www.cge.mil.ar/cge2020/wp-content/uploads/2020/04/Mesa-de-trabajo-1@3x.png" alt="Logo" style="height: 100px; ">
         <div class="nav-bar" style="margin: 20px;">
             <ul class="nav nav-underline">
                 <li class="nav-item">
@@ -155,7 +156,7 @@
                                         // Mostrar mensaje de éxito personalizado
                                         Swal.fire({
                                             icon: "success",
-                                            title: "Exito",
+                                            title: "Éxito",
                                             text: "Licencia eliminada correctamente"
                                         });
                                         $('#licenciasCargadas').jtable('reload');
