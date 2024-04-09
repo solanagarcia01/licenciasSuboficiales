@@ -203,6 +203,11 @@
         return fechaFin > fechaInicio;
     }, "La fecha debe ser mayor que la fecha de inicio.");
 
+     // Regla de validación personalizada para letras
+    $.validator.addMethod("letras", function(value, element) {
+        return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(value);
+    });
+
 
     $("#myForm").validate({
         rules: {
@@ -222,9 +227,11 @@
             },
             provincia: {
                 required: true,
+                letras:true,
             },
             localidad: {
                 required: true,
+                letras:true,
             },
             direccion: {
                 required: true,
@@ -239,6 +246,7 @@
                 required: true
             }
         },
+
         messages: {
             dni: {
                 required: "El DNI es obligatorio",
@@ -305,9 +313,4 @@
     });
     });
 
-
-    // Regla de validación personalizada para letras
-    // $.validator.addMethod("letras", function(value, element) {
-    // return this.optional(element) || /^[a-zA-Z]+$/.test(value);
-    // });
 </script>
