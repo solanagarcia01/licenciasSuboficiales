@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Proyecto Final</title>
 
@@ -25,11 +26,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
-
-
-    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   
+        <!-- Styles -->
     <style>
         html,
         body {
@@ -117,7 +117,7 @@
             <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
         </div>
         <div class="col-md-6">
-            <label for="echaFin" class="form-label">Fin de la licencia</label>
+            <label for="fechaFin" class="form-label">Fin de la licencia</label>
             <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
         </div>
         <div class="col-md-4">
@@ -164,7 +164,7 @@
 
         <div class="col-md-6">
             <label for="ordenDia" class="form-label">Orden del Día (OD)</label>
-            <input type="text" class="form-control" id="ordenDia" name="od" required>
+            <input type="text" class="form-control" id="ordenDia" name="ordenDia" required>
         </div>
         </div>
 
@@ -187,131 +187,127 @@
 </html>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    
     const inputs = document.querySelectorAll('#myForm input');
     $(document).ready(function() {
-                $.validator.addMethod("fechaMenor", function(value, element, params) {
-                    var fechaInicio = new Date($('#fechaInicio').val());
-                    var fechaFin = new Date(value);
-                    return fechaFin > fechaInicio;
-                }, "La fecha debe ser mayor que la fecha de inicio.");
+    $.validator.addMethod("fechaMenor", function(value, element, params) {
+        var fechaInicio = new Date($('#fechaInicio').val());
+        var fechaFin = new Date(value);
+        return fechaFin > fechaInicio;
+    }, "La fecha debe ser mayor que la fecha de inicio.");
 
-                $(document).ready(function() {
-                    $("#myForm").validate({
-                        rules: {
-                            dni: {
-                                required: true,
-                                digits: true,
-                                minlength: 7,
-                                maxlength: 8,
-                            },
-                            fechaInicio: {
-                                required: true,
-                                date: true
-                            },
-                            fechaFin: {
-                                required: true,
-                                date: true,
-                            },
-                            provincia: {
-                                required: true,
-                            },
-                            localidad: {
-                                required: true,
-                                letras: true,
-                            },
-                            direccion: {
-                                required: true,
-                                // alphanumeric: true
-                            },
-                            od: {
-                                required: true,
-                                minlength: 6,
-                                maxlength: 10,
-                            },
-                            tipoLicencia: {
-                                required: true
-                            }
-                        },
-                        messages: {
-                            dni: {
-                                required: "El DNI es obligatorio",
-                                minlength: "El DNI debe tener entre 7 y 8 dígitos",
-                                maxlength: "El DNI debe tener entre 7 y 8 dígitos",
-                                digits: "El DNI debe contener solo números"
-                            },
-                            nombre: {
-                                required: "El Nombre es obligatorio",
-                                letras: "El Nombre debe contener solo letras."
-                            },
-                            apellido: {
-                                required: "El Apellido es obligatorio",
-                                letras: "El Apellido debe contener solo letras."
-                            },
-                            provincia: {
-                                required: "La Provincia es obligatoria",
-                            },
-                            localidad: {
-                                required: "La Localidad es obligatoria",
-                                letras: "La Localidad debe contener solo letras."
-                            },
-                            direccion: {
-                                required: "La Dirección es obligatoria",
-                                // alphanumeric: "La Dirección debe contener solo letras y números."
-                            },
-                            fechaInicio: {
-                                required: "La fecha de inicio de la licencia es obligatoria",
-                                date: "La fecha de inicio de la licencia debe ser una fecha válida"
-                            },
-                            fechaFin: {
-                                required: "La fecha de finalización de la licencia es obligatoria",
-                                date: "La fecha de finalización de la licencia debe ser una fecha válida"
-                            },
-                            od: {
-                                required: "La OD es obligatoria.",
-                                minlength: "La OD debe contener al menos 6 caracteres.",
-                                maxlength: "La OD debe no debe contener más de 10 caracteres."
-                            },
-                            tipo: {
-                                required: "Debe seleccionar una opción de licencia"
-                            }
 
-                        },
-                    });
+    $("#myForm").validate({
+        rules: {
+            dni: {
+                required: true,
+                digits: true,
+                minlength: 7,
+                maxlength: 8,
+            },
+            fechaInicio: {
+                required: true,
+                date: true
+            },
+            fechaFin: {
+                required: true,
+                date: true,
+            },
+            provincia: {
+                required: true,
+            },
+            localidad: {
+                required: true,
+            },
+            direccion: {
+                required: true,
+                // alphanumeric: true
+            },
+            ordenDia: {
+                required: true,
+                minlength: 6,
+                maxlength: 10,
+            },
+            tipo: {
+                required: true
+            }
+        },
+        messages: {
+            dni: {
+                required: "El DNI es obligatorio",
+                minlength: "El DNI debe tener entre 7 y 8 dígitos",
+                maxlength: "El DNI debe tener entre 7 y 8 dígitos",
+                digits: "El DNI debe contener solo números"
+            },
+            provincia: {
+                required: "La Provincia es obligatoria",
+            },
+            localidad: {
+                required: "La Localidad es obligatoria",
+                letras: "La Localidad debe contener solo letras."
+            },
+            direccion: {
+                required: "La Dirección es obligatoria",
+                // alphanumeric: "La Dirección debe contener solo letras y números."
+            },
+            fechaInicio: {
+                required: "La fecha de inicio de la licencia es obligatoria",
+                date: "La fecha de inicio de la licencia debe ser una fecha válida"
+            },
+            fechaFin: {
+                required: "La fecha de finalización de la licencia es obligatoria",
+                date: "La fecha de finalización de la licencia debe ser una fecha válida"
+            },
+            ordenDia: {
+                required: "La OD es obligatoria.",
+                minlength: "La OD debe contener al menos 6 caracteres.",
+                maxlength: "La OD debe no debe contener más de 10 caracteres."
+            },
+            tipo: {
+                required: "Debe seleccionar una opción de licencia"
+            }
 
-                    // Regla de validación personalizada para letras
-                    $.validator.addMethod("letras", function(value, element) {
-                        return this.optional(element) || /^[a-zA-Z]+$/.test(value);
-                    });
-                });
-
-                $('#btnCargar').click(function(e) {
-                    // e.preventDefault();
-                    var formData = $('#myForm').serialize();
-                    console.log(formData);
-                    $.ajax({
-                        method: 'POST',
-                        url: 'http://localhost:5800/insert',
-                        dataType: 'json',
-                        data: formData,
-
-                        success: function(data) {
-                            console.log(data);
-                            Swal.fire({
-                                icon: "success",
-                                title: "¡Licencia Cargada!",
-                                text: "Formulario enviado con éxito",
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Hubo un error al enviar los datos: ' + error);
+        },
+        submitHandler: function(form) { // for demo
+            var formData = $(form).serialize();
+            $.ajax({
+                method: 'POST',
+                url: 'http://localhost:5800/insert',
+                dataType: 'json',
+                data: formData,
+                success: function(data) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Gracias!",
+                        text: "Formulario enviado con exito",
+                        willClose: function() {
+                            location.reload(); // Recargar la página cuando se cierre el SweetAlert
                         }
                     });
-                });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Hubo un error al enviar los datos: ' + error);
+                }
             });
+            return false; // required to block normal submit since you used ajax
+        }
+    });
+
+    $('#btnCargar').click(function(e) {
+        $('#myForm').submit();
+    });
+    });
+
+
+    // Regla de validación personalizada para letras
+    // $.validator.addMethod("letras", function(value, element) {
+    // return this.optional(element) || /^[a-zA-Z]+$/.test(value);
+    // });
 </script>
