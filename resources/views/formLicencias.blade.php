@@ -293,8 +293,8 @@
                 success: function(data) {
                     Swal.fire({
                         icon: "success",
-                        title: "Gracias!",
-                        text: "Formulario enviado con exito",
+                        title: "Licencia Cargada!",
+                        text: "Los datos se enviaron con éxito.",
                         willClose: function() {
                             location.reload(); // Recargar la página cuando se cierre el SweetAlert
                         }

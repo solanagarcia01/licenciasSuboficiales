@@ -115,8 +115,8 @@
                                             // Mostrar mensaje de éxito personalizado
                                             Swal.fire({
                                                 icon: 'success',
-                                                title: 'Éxito',
-                                                text: 'Licencia editada correctamente'
+                                                title: 'Licencia Editada',
+                                                text: 'Los datos se han editado correctamente'
                                             });
                                             $dfd.resolve({
                                                 "Result": "OK"
@@ -153,8 +153,8 @@
                                         // Mostrar mensaje de éxito personalizado
                                         Swal.fire({
                                             icon: "success",
-                                            title: "Éxito",
-                                            text: "Licencia eliminada correctamente"
+                                            title: "Licencia Eliminada",
+                                            text: "La licencia se ha eliminado correctamente"
                                         });
                                         $('#licenciasCargadas').jtable('reload');
                                         $dfd.resolve({
