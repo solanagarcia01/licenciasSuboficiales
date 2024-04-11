@@ -26,12 +26,8 @@ class TablaController extends Controller
     function tabla()
     {
         try {
-            $client = new Client(['verify' => false]);
-            $request = $client->get('http://localhost:5800/');
-            $response = json_decode($request->getBody()->getContents(), true); // Decodificar como arreglo asociativo
-    
-            // Pasar los datos a la vista en el formato que espera el script jQuery
-            return view('TablaLicencias', ['licencias' => ['licencias' => $response['licencias']]]);
+            return view('TablaLicencias');
+
         } catch (RequestException $e) {
             return null;
         }

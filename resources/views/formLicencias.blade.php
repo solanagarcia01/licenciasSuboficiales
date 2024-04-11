@@ -13,10 +13,10 @@
         <div class="nav-bar" style="margin: 20px;">
             <ul class="nav nav-underline">
                 <li class="nav-item">
-                    <a class="nav-link bar" href="\" onclick="mostrarSeccion('usersLicencias'); return false;">Cargá tu Licencia</a>
+                    <a class="nav-link bar" href="\" >Cargá tu Licencia</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link bar" aria-current="page" href="\TablaLicencias" onclick="mostrarSeccion('TablaLicencias'); return false;">Licencias Cargadas</a>
+                    <a class="nav-link bar" aria-current="page" href="\TablaLicencias">Licencias Cargadas</a>
                 </li>
             </ul>
         </div>
@@ -26,10 +26,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-   
-        <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Styles -->
     <style>
         html,
         body {
@@ -184,133 +183,131 @@
 
 </body>
 
-</html>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    
+
     const inputs = document.querySelectorAll('#myForm input');
     $(document).ready(function() {
-    $.validator.addMethod("fechaMenor", function(value, element, params) {
-        var fechaInicio = new Date($('#fechaInicio').val());
-        var fechaFin = new Date(value);
-        return fechaFin > fechaInicio;
-    }, "La fecha debe ser mayor que la fecha de inicio.");
+        $.validator.addMethod("fechaMenor", function(value, element, params) {
+            var fechaInicio = new Date($('#fechaInicio').val()).getTime();
+            var fechaFin = new Date(value).getTime();
+            return fechaFin > fechaInicio;
+        }, "La fecha debe ser mayor que la fecha de inicio.");
+    });
 
-     // Regla de validación personalizada para letras
+    // Regla de validación personalizada para letras
     $.validator.addMethod("letras", function(value, element) {
         return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(value);
     });
 
 
     $("#myForm").validate({
-        rules: {
-            dni: {
-                required: true,
-                digits: true,
-                minlength: 7,
-                maxlength: 8,
-            },
-            fechaInicio: {
-                required: true,
-                date: true
-            },
-            fechaFin: {
-                required: true,
-                date: true,
-            },
-            provincia: {
-                required: true,
-                letras:true,
-            },
-            localidad: {
-                required: true,
-                letras:true,
-            },
-            direccion: {
-                required: true,
-                // alphanumeric: true
-            },
-            ordenDia: {
-                required: true,
-                minlength: 6,
-                maxlength: 10,
-            },
-            tipo: {
-                required: true
-            }
+    rules: {
+        dni: {
+            required: true,
+            digits: true,
+            minlength: 7,
+            maxlength: 8,
         },
-
-        messages: {
-            dni: {
-                required: "El DNI es obligatorio",
-                minlength: "El DNI debe tener entre 7 y 8 dígitos",
-                maxlength: "El DNI debe tener entre 7 y 8 dígitos",
-                digits: "El DNI debe contener solo números"
-            },
-            provincia: {
-                required: "La Provincia es obligatoria",
-            },
-            localidad: {
-                required: "La Localidad es obligatoria",
-                letras: "La Localidad debe contener solo letras."
-            },
-            direccion: {
-                required: "La Dirección es obligatoria",
-                // alphanumeric: "La Dirección debe contener solo letras y números."
-            },
-            fechaInicio: {
-                required: "La fecha de inicio de la licencia es obligatoria",
-                date: "La fecha de inicio de la licencia debe ser una fecha válida"
-            },
-            fechaFin: {
-                required: "La fecha de finalización de la licencia es obligatoria",
-                date: "La fecha de finalización de la licencia debe ser una fecha válida"
-            },
-            ordenDia: {
-                required: "La OD es obligatoria.",
-                minlength: "La OD debe contener al menos 6 caracteres.",
-                maxlength: "La OD debe no debe contener más de 10 caracteres."
-            },
-            tipo: {
-                required: "Debe seleccionar una opción de licencia"
-            }
-
+        fechaInicio: {
+            required: true,
+            date: true
         },
-        submitHandler: function(form) { // for demo
-            var formData = $(form).serialize();
-            $.ajax({
-                method: 'POST',
-                url: 'http://localhost:5800/insert',
-                dataType: 'json',
-                data: formData,
-                success: function(data) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Licencia Cargada!",
-                        text: "Los datos se enviaron con éxito.",
-                        willClose: function() {
-                            location.reload(); // Recargar la página cuando se cierre el SweetAlert
-                        }
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Hubo un error al enviar los datos: ' + error);
-                }
-            });
-            return false; // required to block normal submit since you used ajax
+        fechaFin: {
+            required: true,
+            date: true,
+            fechaMenor: true
+        },
+        provincia: {
+            required: true,
+            letras: true,
+        },
+        localidad: {
+            required: true,
+            letras: true,
+        },
+        direccion: {
+            required: true,
+            // alphanumeric: true
+        },
+        ordenDia: {
+            required: true,
+            minlength: 6,
+            maxlength: 10,
+        },
+        tipo: {
+            required: true
         }
-    });
+    },
 
-    $('#btnCargar').click(function(e) {
-        $('#myForm').submit();
-    });
+    messages: {
+        dni: {
+            required: "El DNI es obligatorio",
+            minlength: "El DNI debe tener entre 7 y 8 dígitos",
+            maxlength: "El DNI debe tener entre 7 y 8 dígitos",
+            digits: "El DNI debe contener solo números"
+        },
+        provincia: {
+            required: "La Provincia es obligatoria",
+        },
+        localidad: {
+            required: "La Localidad es obligatoria",
+            letras: "La Localidad debe contener solo letras."
+        },
+        direccion: {
+            required: "La Dirección es obligatoria",
+            // alphanumeric: "La Dirección debe contener solo letras y números."
+        },
+        fechaInicio: {
+            required: "La fecha de inicio de la licencia es obligatoria",
+            date: "La fecha de inicio de la licencia debe ser una fecha válida"
+        },
+        fechaFin: {
+            required: "La fecha de finalización de la licencia es obligatoria",
+            date: "La fecha de finalización de la licencia debe ser una fecha válida",
+            fechaMenor: "La fecha de fin debe ser mayor que la fecha de inicio."
+        },
+        ordenDia: {
+            required: "La OD es obligatoria.",
+            minlength: "La OD debe contener al menos 6 caracteres.",
+            maxlength: "La OD debe no debe contener más de 10 caracteres."
+        },
+        tipo: {
+            required: "Debe seleccionar una opción de licencia"
+        }
+
+    },
+    submitHandler: function(form) { // for demo
+        var formData = $(form).serialize();
+        $.ajax({
+            method: 'POST',
+            url: 'http://localhost:5800/insert',
+            dataType: 'json',
+            data: formData,
+            success: function(data) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Licencia Cargada!",
+                    text: "Los datos se enviaron con éxito.",
+                    willClose: function() {
+                        location.reload(); // Recargar la página cuando se cierre el SweetAlert
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Hubo un error al enviar los datos: ' + error);
+            }
+        });
+        return false; // required to block normal submit since you used ajax
+    }
     });
 
 </script>
+
+</html>

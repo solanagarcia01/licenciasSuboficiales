@@ -13,10 +13,10 @@
         <div class="nav-bar" style="margin: 20px;">
             <ul class="nav nav-underline">
                 <li class="nav-item">
-                    <a class="nav-link bar" href="\" onclick="mostrarSeccion('usersLicencias'); return false;">Cargá tu Licencia</a>
+                    <a class="nav-link bar" href="\">Cargá tu Licencia</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link bar" aria-current="page" href="\TablaLicencias" onclick="mostrarSeccion('TablaLicencias'); return false;">Licencias Cargadas</a>
+                    <a class="nav-link bar" aria-current="page" href="\TablaLicencias">Licencias Cargadas</a>
                 </li>
             </ul>
         </div>
@@ -28,7 +28,16 @@
     <link href="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/themes/metro/blue/jtable.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
-
+    <style>
+        #add-new-record {
+            background-color: white;
+            color: blue;
+            border: none;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 
 
@@ -42,7 +51,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jtable@2.6.0/lib/jquery.jtable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-
         $(document).ready(function() {
 
             $('#licenciasCargadas').jtable({
@@ -74,8 +82,6 @@
                             });
                         });
                     },
-
-                    createAction: '/GettingStarted/CreatePerson',
 
                     updateAction: function(postData) {
                         const url = new URLSearchParams(
@@ -187,7 +193,7 @@
                         width: '5%',
                         listClass: 'text-center',
                         key: true,
-                        list: true,
+                        list: false, // ocultar el ID en la tabla
                         sorting: false,
                     },
                     fechaInicio: {
@@ -247,8 +253,16 @@
             });
 
             $('#licenciasCargadas').jtable('load');
-            $('#licenciasCargadas').on('click', '.jtable-toolbar-item-add-record', function() {
-                // Redirigir al usuario a la vista del formulario
+
+            // Elimina el botón "Add New Record" que jTable agrega automáticamente
+            $('.jtable-toolbar-item-add-record').remove();
+
+            // Agrega un botón personalizado para agregar una nueva licencia
+            $('.jtable-toolbar').prepend('<button id="add-new-record" class="jtable-toolbar-item-add-record">Cargar nueva Licencia</button>');
+
+            // Maneja el evento de clic en el botón personalizado
+            $('#add-new-record').on('click', function() {
+                // Redirige al usuario a la vista del formulario
                 window.location.href = '/';
             });
 
